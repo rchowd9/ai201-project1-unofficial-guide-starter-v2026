@@ -1,6 +1,6 @@
 # The Unofficial Guide
 
-**Riasat Chowdhury - city-guides**
+**Riasat Chowdhury - city_guides**
 
 > **This file is your submission.** Fill it in as you go — most sections get
 > written during the milestone that produces them, not at the end.
