@@ -26,6 +26,8 @@ contains the answer.
 <!-- e.g. "One of my questions is about a topic only two documents mention, so
      I expect that one to be hard." -->
 
+     A couple of questions ask about niche details mentioned in only one sentence, so vector search might occasionally miss, but failing more than once means the retrieval setup isn't working.
+
 ---
 
 ## 2. Every answer names a source
@@ -35,6 +37,8 @@ Every answer the system produces names at least one source document.
 **Why this target:**
 <!-- Why all five and not four? What about your setup makes that achievable —
      or what would have to go wrong for it not to be? -->
+
+     Since the file names are in the prompt next to the context, the model has no reason to leave them out.
 
 ---
 
@@ -53,6 +57,8 @@ in at least 4 of 5 tries.
 <!-- What did your distances look like when you set the cutoff in Milestone 4?
      Was there a clean gap, or did the two groups overlap? -->
 
+     Off-topic questions can easily share words with travel guides, so catching 4 out of 5 blocks most junk without being so strict that it rejects weirdly worded valid questions.
+
 ---
 
 ## 4. Something about your chunks
@@ -61,6 +67,8 @@ in at least 4 of 5 tries.
 
      How would you know if your chunks were the right size? Name something
      countable or observable.
+
+     At least 4 of 5 sampled chunks contain complete, readable sentences without getting cut off mid-word or mid-sentence at either boundary.
 
      Examples of the right shape — don't copy these, they should come from
      what you actually saw in Milestone 3:
@@ -73,7 +81,7 @@ in at least 4 of 5 tries.
 
 **Why this target:**
 
-
+Basic character splitting tends to chop sentences mid-word, so requiring most chunks to end cleanly keeps the model from missing key numbers or cutoff details.
 
 ---
 
@@ -87,12 +95,13 @@ in at least 4 of 5 tries.
      present — anything, as long as it names a number or an observable
      outcome. -->
 
+     For 5 out of 5 valid test questions, the generated response correctly attributes facts to the specific source document from which they were retrieved when answering questions about mobility.
+
 
 
 **Why this target:**
 
-
-
+With multiple guides mentioning things like hospitals or Sunday buses for different towns, giving the right answer with the wrong source filename gives someone flat-out wrong travel advice.
 ---
 
 <!-- ─────────────────────────────────────────────────────────────────────────
