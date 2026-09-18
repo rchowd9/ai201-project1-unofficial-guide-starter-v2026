@@ -58,7 +58,7 @@ An honest assessment rather than a promotional one. Some of these places are
 difficult and it is better to know in advance.
 ```
 
-**Chunk 2** — source: `guide_corry_vale.md#2` — produced by: `chunker.py::split_documents`
+**Chunk 2** — source: `guide_corry_vale.md#5` — produced by: `chunker.py::split_documents`
 
 ```text
 # Corry Vale
@@ -68,7 +68,7 @@ difficult and it is better to know in advance.
 Perhaps thirty beds in the entire valley, spread across two pubs and a handful of farmhouse rooms. In summer these are booked months ahead. Camping is permitted on two marked fields and nowhere else.
 ```
 
-**Chunk 3** — source: `guide_givens_mill.md#0` — produced by: `chunker.py::split_documents`
+**Chunk 3** — source: `guide_givens_mill.md#2` — produced by: `chunker.py::split_documents`
 
 ```text
 # Givens Mill
@@ -78,7 +78,7 @@ Perhaps thirty beds in the entire valley, spread across two pubs and a handful o
 Everything is on one street along the river. The mill is at one end and the church at the other, eight minutes apart. The riverside path continues in both directions for as far as you want to walk.
 ```
 
-**Chunk 4** — source: `guide_kestrelford.md#3` — produced by: `chunker.py::split_documents`
+**Chunk 4** — source: `guide_kestrelford.md#4` — produced by: `chunker.py::split_documents`
 
 ```text
 # Kestrelford
@@ -88,7 +88,7 @@ Everything is on one street along the river. The mill is at one end and the chur
 The market square on a Saturday morning is the main event and has run continuously since the 1400s. The parish church has a 13th-century toweryou can climb for £2. The old trackbed walk runs six miles to the next village along an easy gradient and is the best half-day here.
 ```
 
-**Chunk 5** — source: `guide_regional_transport.md#1` — produced by: `chunker.py::split_documents`
+**Chunk 5** — source: `guide_pellew_sands.md#6` — produced by: `chunker.py::split_documents`
 
 ```text
 # Pellew Sands
@@ -103,14 +103,16 @@ June and September for the beach without the crowds. July and August are busy an
 <!-- One complete question and answer, pasted as text, with the source line
      visible. Milestone 4. -->
 
-**Question:**
+**Question:** Which town in the region is easiest to get around with limited mobility?
 
-**Answer:**
+**Answer:** Thornby Wells is the easiest town in the region because it is flat,
+compact, and everything is within three minutes of everything else. Source:
+`guide_accessibility.md`.
 
 ```
 ```
 
-**My relevance cutoff:**
+**My relevance cutoff:** `0.65`
 
 <!-- The number you set in config.py, and how you got there.
 
@@ -121,9 +123,33 @@ June and September for the beach without the crowds. July and August are busy an
 
      Milestone 4. -->
 
+I kept `top-k=5`. The three retrieval checks I read were on topic: Halden Bay
+returned `guide_regional_transport.md` at `0.3850` with the exact 10am parking
+detail, accessibility returned `guide_accessibility.md` at `0.4855` with the
+Thornby Wells answer, and Kestrelford returned `guide_kestrelford.md` at
+`0.4259` with the train-closure information. The other returned chunks were
+also regional travel material rather than matches based on a few isolated
+words.
+
+The five in-scope best distances were `0.3850`, `0.4855`, `0.4056`, `0.3023`,
+and `0.4259` (range `0.3023-0.4855`). The five out-of-scope distances were
+`0.8874`, `0.8969`, `0.9026`, `0.8293`, and `0.8529` (range `0.8293-0.9026`).
+There was a clear gap between `0.4855` and `0.8293`, so I chose `0.65` in the
+middle. At that cutoff all five in-scope questions pass and all five
+out-of-scope questions are refused.
+
 | Question | In corpus? | Best distance |
 |---|---|---|
-|  |  |  |
+| I'm driving to Halden Bay on a summer weekend. By what time do the two town car parks fill up? | Yes | 0.3850 |
+| Which town in the region is easiest to get around with limited mobility? | Yes | 0.4855 |
+| In Marchwood, which district has the best eating, and how do I get there from the station? | Yes | 0.4056 |
+| How often does the access road to Elder Ness flood, and for how long each time? | Yes | 0.3023 |
+| Can I get to Kestrelford by train? | Yes | 0.4259 |
+| What is the capital of Mongolia? | No | 0.8874 |
+| How do I change the oil in a diesel engine? | No | 0.8969 |
+| Who won the 1994 World Cup? | No | 0.9026 |
+| What is the recommended dosage of ibuprofen for a headache? | No | 0.8293 |
+| How do I write a for loop in Rust? | No | 0.8529 |
 
 ## How I Used AI
 
