@@ -63,12 +63,12 @@ in at least 4 of 5 tries.
 
 ## 4. Something about your chunks
 
+At least 4 of 5 sampled chunks contain complete, readable sentences without getting cut off mid-word or mid-sentence at either boundary.
+
 <!-- YOU WRITE THIS ONE.
 
      How would you know if your chunks were the right size? Name something
      countable or observable.
-
-     At least 4 of 5 sampled chunks contain complete, readable sentences without getting cut off mid-word or mid-sentence at either boundary.
 
      Examples of the right shape — don't copy these, they should come from
      what you actually saw in Milestone 3:
