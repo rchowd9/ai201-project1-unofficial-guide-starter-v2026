@@ -30,8 +30,12 @@
 
 ## Chunking Strategy
 
-**Chunk size:**
-**Overlap:**
+**Chunk size: 600 characters**
+**Overlap: 100 characters**
+
+Reading through city_guides in Milestone 1, I noticed the documents are structured travel guides where each topic (like ## Getting there or ## Eat and drink) forms a standalone section that runs roughly 400 to 600 characters long. The starter chunker used an 800-character fixed split, which routinely sliced straight through those section boundaries mid-sentence—leaving fragments like "The station is a 15-" in one chunk and the rest in the next.
+
+I picked a 600-character chunk size with a 100-character overlap so that an entire section (or a complete logical thought within a section) fits into a single chunk. The 100-character overlap acts as a safety net for longer sections, ensuring key details like bus schedules or medical facility hours aren't severed if they land near a boundary.
 
 <!-- What about YOUR documents made you pick these numbers? Short posts and
      long sectioned guides don't want the same chunking, and "800 seemed
