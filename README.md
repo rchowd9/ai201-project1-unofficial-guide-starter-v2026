@@ -22,6 +22,8 @@
 
 ## What This Does
 
+This system is a local retrieval-augmented generation (RAG) assistant built using the `city_guides` corpus to answer regional travel and transit questions. It indexes structured markdown guides covering nine local towns alongside regional topic guides like accessibility, dining, and public transport. When a user asks a question, the system retrieves relevant document chunks based on vector embeddings and generates grounded answers citing specific source files. It also filters out off-topic queries using a distance-based relevance gate to prevent hallucinated answers for out-of-scope prompts.
+
 <!-- Three or four sentences. Which corpus you picked, and the kinds of
      questions your system answers. Write it for someone who has never seen
      this repo.
@@ -123,7 +125,7 @@ compact, and everything is within three minutes of everything else. Source:
 
      Milestone 4. -->
 
-I kept `top-k=5`. The three retrieval checks I read were on topic: Halden Bay
+I kept `top-k=5`. The three retrieval checks I read were on topic: Halden Bay 
 returned `guide_regional_transport.md` at `0.3850` with the exact 10am parking
 detail, accessibility returned `guide_accessibility.md` at `0.4855` with the
 Thornby Wells answer, and Kestrelford returned `guide_kestrelford.md` at
@@ -153,6 +155,8 @@ out-of-scope questions are refused.
 
 ## How I Used AI
 
+
+
 <!-- Two specific moments. For each: what you asked for, what came back, and
      what you changed about it.
 
@@ -162,9 +166,9 @@ out-of-scope questions are refused.
 
      Milestone 5. -->
 
-**1.**
+**1.** I asked Gemini to generate custom criteria for `criteria.md` targeting sentence completeness and source precision for my corpus. It initially produced multi-sentence academic explanations for each target, so I asked it to condense each explanation into a single, direct sentence that explicitly highlighted issues from my `city_guides` sample chunks.
 
-**2.**
+**2.** I asked Gemini to analyze the output of the starter chunker on my dataset and suggest a chunking strategy. It recommended reducing the chunk size to 600 characters with a 100-character overlap to align with the length of section headings in my travel guides, which I used to replace the default 800-character fixed split.
 
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
