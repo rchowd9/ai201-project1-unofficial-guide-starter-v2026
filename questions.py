@@ -23,11 +23,42 @@ names a target of "4 of 5", and four of three is not a thing.
 
 QUESTIONS = [
     # {"question": "...", "expects": "..."},
-    {"question": "", "expects": ""},
-    {"question": "", "expects": ""},
-    {"question": "", "expects": ""},
-    {"question": "", "expects": ""},
-    {"question": "", "expects": ""},
+    {
+        # guide_halden_bay.md, corroborated by guide_regional_transport.md
+        # and guide_seasons.md. All three give the same time.
+        "question": "I'm driving to Halden Bay on a summer weekend. By what time "
+                    "do the two town car parks fill up?",
+        "expects": "10am",
+    },
+    {
+        # guide_accessibility.md calls it "the easiest town in the region";
+        # guide_walking.md independently calls it the most accessible on foot.
+        # Deliberately does not name the town, so retrieval has to find it.
+        "question": "Which town in the region is easiest to get around with "
+                    "limited mobility?",
+        "expects": "Thornby Wells",
+    },
+    {
+        # guide_eating.md and guide_marchwood.md. Marchwood is the stated
+        # exception to the region's "good food is one street back" pattern.
+        "question": "In Marchwood, which district has the best eating, and how "
+                    "do I get there from the station?",
+        "expects": "Northgate",
+    },
+    {
+        # guide_elder_ness.md ("roughly six times a year") and
+        # guide_walking.md ("about six times a year").
+        "question": "How often does the access road to Elder Ness flood, and "
+                    "for how long each time?",
+        "expects": "six times a year",
+    },
+    {
+        # guide_kestrelford.md, guide_regional_transport.md, guide_walking.md.
+        # The right answer is "you can't" — this catches a system that invents
+        # a station rather than reporting the closure.
+        "question": "Can I get to Kestrelford by train?",
+        "expects": "1963",
+    },
 ]
 
 # Questions from a different world entirely. Your gate should refuse all five.
