@@ -56,94 +56,46 @@ I picked a 600-character chunk size with a 100-character overlap so that an enti
 
 An honest assessment rather than a promotional one. Some of these places are
 difficult and it is better to know in advance.
-
-## Straightforward
-
-**Thornby Wells** is the easiest town in the region. It is flat, compact, and
-everything is within three minutes of everything else. Parking is free for two
-hours anywhere in town and the station is central. The pump room and gardens
-are level throughout.
-
-**Marchwood** has a modern tram network with level boarding on all four lines,
-running every 8 minutes on weekdays. The city museum and covered market are both
-step-free. The distances between districts are the main consideration.
-
-**Brightwater** is level along the river and through the centre. The mill museum
-is step-free. The station is a 15-
 ```
 
-**Chunk 2** — source: `guide_corry_vale.md#2` — produced by: `chunker.py::fallback_split`
+**Chunk 2** — source: `guide_corry_vale.md#2` — produced by: `chunker.py::split_documents`
 
 ```text
-the second village is 12th century and always unlocked.
+# Corry Vale
 
 ## Where to stay
 
 Perhaps thirty beds in the entire valley, spread across two pubs and a handful of farmhouse rooms. In summer these are booked months ahead. Camping is permitted on two marked fields and nowhere else.
-
-## When to go
-
-May to September. Outside those months the pub in the third village closes, the farm shop reduces its hours, and several footpaths become genuinely boggy rather than merely wet. The road is not gritted above the second village and is impassable in snow.
-
-## Practical notes
-
-Cash is still useful at the market and in smaller places, though cards are
-accepted almost everywhere now. Mobile coverage is good in the centre and
-patchy on the outskirts. The nearest full hospital is in Brightwater; there is
-a mino
 ```
 
-**Chunk 3** — source: `guide_givens_mill.md#0` — produced by: `chunker.py::fallback_split`
+**Chunk 3** — source: `guide_givens_mill.md#0` — produced by: `chunker.py::split_documents`
 
 ```text
 # Givens Mill
 
-Givens Mill is a village of 700 built around a working watermill that still grinds flour commercially. It is the sort of place people visit for an afternoon and then talk about for longer than the visit lasted.
-
-## Getting there
-
-No station and no bus on Sundays; four buses a day from Brightwater on weekdays, taking 30 minutes. Driving is 20 minutes. The village car park holds about forty cars and is full by 11am on summer Saturdays.
-
 ## Getting around
 
 Everything is on one street along the river. The mill is at one end and the church at the other, eight minutes apart. The riverside path continues in both directions for as far as you want to walk.
-
-## Eat and drink
-
-A tearoom attached to the mill, open 10 to 4 daily except Tuesdays, which sells bread made from the flour grou
 ```
 
-**Chunk 4** — source: `guide_kestrelford.md#3` — produced by: `chunker.py::fallback_split`
+**Chunk 4** — source: `guide_kestrelford.md#3` — produced by: `chunker.py::split_documents`
 
 ```text
-irts. The nearest full hospital is in Brightwater; there is
-a minor injuries unit locally with limited hours.
+# Kestrelford
+
+## What to see
+
+The market square on a Saturday morning is the main event and has run continuously since the 1400s. The parish church has a 13th-century toweryou can climb for £2. The old trackbed walk runs six miles to the next village along an easy gradient and is the best half-day here.
 ```
 
-**Chunk 5** — source: `guide_regional_transport.md#1` — produced by: `chunker.py::fallback_split`
+**Chunk 5** — source: `guide_regional_transport.md#1` — produced by: `chunker.py::split_documents`
 
 ```text
-oncentrate on weekday daytimes. Sunday service is minimal to non-existent
-outside the Brightwater town routes.
+# Pellew Sands
 
-The Kestrelford service is hourly on weekdays, two-hourly on Saturdays, and
-does not run on Sundays. The Halden Bay coast service runs four times daily
-year-round.
+## When to go
 
-## Driving
-
-Roads are good between the towns and poor on the approaches to both Kestrelford
-and Halden Bay. The Kestrelford approach is single-track with passing places
-for the final eight minutes. The Halden Bay coast road is cut into the cliff
-and is slow rather than difficult.
-
-Parking is the constraint rather than driving. Both Halden Bay lots fill by
-10am on summer weekends. Kestrelford's lower car park is free and involves a
-steep walk up.
-
-## Walking and cycling
-
-The river path from Brightwater runs four miles
+June and September for the beach without the crowds. July and August are busy and the town is at its most itself, for better and worse. Winteris bleak, largely closed, and has a following among people who like that sort of thing.
 ```
 
 ## Sample Answer
