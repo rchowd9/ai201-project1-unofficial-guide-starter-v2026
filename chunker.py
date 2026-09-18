@@ -22,10 +22,18 @@ to it, write down what you saw, and move on. That's a real observation about
 your pipeline, not giving up.
 """
 
+import re
 from dataclasses import dataclass
 
 import config
 from ingest import Document
+
+# A markdown "## Section" line. The city guides put every topic under one of
+# these, so they're the natural seam to cut on.
+SECTION_HEADING = re.compile(r"^##\s+.+$", re.M)
+
+# A "# Title" line at the very top of a document, e.g. "# Halden Bay".
+DOC_TITLE = re.compile(r"\A#\s+(.+)$", re.M)
 
 
 @dataclass
