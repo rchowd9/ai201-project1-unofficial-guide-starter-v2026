@@ -288,6 +288,14 @@ wrong town's file. 5 of 5 on every run.
 
 ## Diagnoses
 
+Stage: Chunking
+
+Mechanism: The default chunker enforced a rigid 800-character split that completely ignored syntactic structures and Markdown section headers. On the city_guides corpus, this fixed cutoff regularly severed text mid-sentence and mid-word, producing broken trailing fragments such as "The station is a 15-" and single-word leftover chunks. Criterion 4 failed completely (0/5 across all three runs) because the chunker evaluated raw character counts instead of locating natural logical boundaries like section headings (\n## ) or paragraph breaks (\n\n).
+
+Pattern across misses:
+
+This represents a single, systemic failure at the chunking stage. The root cause is a structural mismatch: fixed-length character splitting assumes uniform prose, whereas city_guides consists of short, highly modular travel sections averaging 400 to 600 characters. Slicing across these structured guides at an arbitrary 800-character boundary guarantees that section edges and concluding sentences are consistently severed.
+
 <!-- For each miss: which stage caused it, and how. The stage alone isn't
      enough — you need the mechanism.
 
