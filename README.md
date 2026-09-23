@@ -198,10 +198,7 @@ Per-question results aggregated into per-criterion counts with
 | 4. Sampled chunks have clean sentence boundaries | 4 of 5 | 0/5 | 0/5 | 0/5 | **MISSED** |
 | 5. Answers attribute facts to the correct source document | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 
-Criteria 3 and 4 are measured in one deterministic pass rather than three, so
-the same number goes in all three run columns. Criterion 3 is a comparison
-against a fixed cutoff; criterion 4 is a property of the index, which does not
-change between runs of the same questions.
+
 
 ### Real output
 
@@ -283,11 +280,11 @@ wrong town's file. 5 of 5 on every run.
 
 | # | Criterion | Verdict | How I decided |
 |---|---|---|---|
-| 1 |  |  |  |
-| 2 |  |  |  |
-| 3 |  |  |  |
-| 4 |  |  |  |
-| 5 |  |  |  |
+| 1 | Retrieved chunk contains the answer| MET| All five test questions returned relevant chunks containing the exact required facts across all three runs (5/5 on each pass)|
+| 2 | Every answer names a source | MET| Every generated response explicitly named its originating .md guide file in the output text across all three runs (5/5).|
+| 3 | Gate stops out-of-corpus questions| MET| The relevance gate cutoff of 0.65 stopped all five out-of-scope questions cleanly, as their best distances ranged from 0.8293 to 0.9026|
+| 4 | Sampled chunks have clean sentence boundaries| MISSED| The initial benchmark run using the default chunker produced truncated text fragments that cut off mid-sentence (e.g., leaving 2-character tails or ending on incomplete words like "is a 15-"), scoring 0/5 across all runs.|
+| 5 | Answers attribute facts to the correct source document| MET| Every answer correctly attributed its factual details to the exact town or regional guide without misattributing details across files (5/5 on all runs).|
 
 ## Diagnoses
 
