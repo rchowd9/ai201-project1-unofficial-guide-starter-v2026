@@ -316,34 +316,81 @@ This represents a single, systemic failure at the chunking stage. The root cause
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** A second chunking strategy. I replaced the body of
+`chunker.py::split_documents` so it splits each guide on its `##` section
+headings instead of on a fixed character count, and prefixes every chunk with
+the document's `# Title` line. `chunker.py::fallback_split` is untouched, and
+I indexed the new strategy as index variant `v2` so both chunkings exist side
+by side and the before/after comparison is against the same questions rather
+than against a rebuilt index.
 
-**Why I picked it:**
+Sections in these guides run 200–500 characters, so `CHUNK_SIZE` becomes a
+ceiling rather than a target. A section that overshoots it gets packed on
+paragraph breaks by `chunker.py::_pack_paragraphs`.
 
-<!-- Connect it to a specific diagnosis above in one sentence. If you can't,
-     you picked a fix because it sounded impressive. -->
+**Why I picked it:** Criterion 4 was the only miss, and the diagnosis named
+chunking specifically — a fixed-width splitter has no notion of a sentence, so
+it severs them at arbitrary offsets. Hybrid search and gate tuning would have
+been fixes for problems I didn't measure.
 
 ### Run Log — After
 
-<!-- Same format, same five criteria, three runs each.
-     `python run_eval.py --label after` -->
+Source: `results/run_2026-09-24_1919_after.md`, produced by `run_eval.py::main`.
+Corpus `city_guides`, **index variant `v2`**, top-k 5, cutoff 0.65, caching off.
+Aggregated with `scorer.py::breakdown`, same as the before table.
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. Sampled chunks have clean sentence boundaries | 4 of 5 | 5/5 | 5/5 | 5/5 | **MET** |
+| 5. Answers attribute facts to the correct source document | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 
-**Did it help?**
+**Did it help?** Yes, and criterion 4 is the one that moved — 0 of 5 to 5 of 5.
 
-<!-- Say plainly whether it did, and how you know. If it made things worse,
-     say that — a change that backfired, honestly reported, earns full credit
-     and is more interesting than one that worked. What matters is that you can
-     tell.
+Across the whole index, chunks cut mid-sentence went from 33 of 51 at the end
+and 35 of 51 at the start, to **0 of 94 at either boundary**. The same five
+sampled chunks that were ragged at both ends before:
 
-     Milestone 4. -->
+```text
+  [guide_halden_bay.md#1]   start='# Halden Bay\n\n##'  end=' walk up a hill.'
+  [guide_corry_vale.md#2]   start='# Corry Vale\n\n##'  end='aths in between.'
+  [guide_marchwood.md#3]    start='# Marchwood\n\n## '  end='s and Saturdays.'
+  [guide_elder_ness.md#1]   start='# Elder Ness\n\n##'  end='minutes by road.'
+  [guide_kestrelford.md#2]  start='# Kestrelford\n\n#'  end='the town itself.'
+  -> 5 of 5 clean at both boundaries
+```
+
+The other four criteria were already met and stayed met, so this is not a
+trade. Retrieval distances improved on three of five questions, held roughly
+level on one, and got slightly worse on one:
+
+| Question | Before | After |
+|---|---|---|
+| Halden Bay car parks | 0.385 | **0.300** |
+| Easiest town with limited mobility | 0.485 | 0.502 |
+| Marchwood eating district | 0.406 | **0.217** |
+| Elder Ness road flooding | 0.302 | 0.319 |
+| Kestrelford by train | 0.426 | **0.399** |
+
+Marchwood nearly halving is the clearest win and the mechanism is visible: the
+answer lives in `## Eat and drink`, which is now one whole chunk about eating
+in Marchwood rather than 800 characters spanning three unrelated topics. Less
+irrelevant text in the chunk means less diluted embedding.
+
+The mobility question got *worse* (0.485 → 0.502) and I think that is the same
+mechanism working against me. The answer sits in `guide_accessibility.md`,
+whose `## Straightforward` section covers three towns at once; splitting on
+headings didn't separate them, it just trimmed the surrounding context that
+happened to help the match. It still retrieved the right chunk and still
+answered correctly, so the criterion holds, but it is the one question where
+section-splitting is the wrong shape for the document.
+
+Out-of-scope distances also moved further away — the closest went from 0.829 to
+0.803 and the furthest from 0.903 to 0.975 — so the gap between in-corpus and
+out-of-corpus stayed clean and the gate still refused 5 of 5 at the same 0.65
+cutoff.
 
 ## What's Still Broken
 
