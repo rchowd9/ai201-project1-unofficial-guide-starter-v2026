@@ -170,6 +170,8 @@ out-of-scope questions are refused.
 
 **2.** I asked Gemini to analyze the output of the starter chunker on my dataset and suggest a chunking strategy. It recommended reducing the chunk size to 600 characters with a 100-character overlap to align with the length of section headings in my travel guides, which I used to replace the default 800-character fixed split.
 
+**3.**In Unit 2, I used Gemini to help spot patterns across my 0/5 failure on Criterion 4. It helped me realize that the starter chunker's fixed 800-character threshold was constantly slicing across the 400–600 character sections in city_guides, confirming that my misses were caused by a single chunking flaw rather than an embedding or retrieval issue.
+
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
      claims earns nothing.
@@ -394,6 +396,14 @@ cutoff.
 
 ## What's Still Broken
 
+After replacing the character-based chunker with section-heading splits, all five criteria met their targets in the post-fix run log (5/5 across all three evaluation passes).
+
+However, digging into the numbers revealed a small trade-off. The best retrieval distance for the limited mobility question actually got a bit worse, moving from 0.485 to 0.502. This happened because guide_accessibility.md lists accessibility facts for three different towns under a single ## Straightforward header. Splitting strictly on headings kept all three towns lumped together in one chunk, keeping unnecessary text in the embedding.
+
+I'd update the chunker to split on double line breaks (\n\n) within long sections while still keeping the section title attached to each chunk. That way, individual town descriptions get their own clean vector embeddings without losing their context.
+
+I stopped here because all five target criteria were already passing comfortably at 5/5, and 0.502 is still well below the 0.65 relevance gate cutoff. Adding sub-paragraph splitting logic would have added extra complexity to the codebase without changing the pass/fail outcome on the benchmark.
+
 <!-- For each criterion still missed after your fix: what you'd do about it,
      and why you stopped where you did.
 
@@ -403,6 +413,10 @@ cutoff.
      Milestone 5. -->
 
 ## What I'd Do Differently
+
+Knowing what I know now, I would rewrite Criterion 4 ("Sampled chunks have clean sentence boundaries").
+
+Checking whether a chunk starts or ends on a clean sentence boundary is helpful, but it doesn't guarantee the chunk actually makes sense on its own. A chunk can begin and end with complete sentences while still missing crucial context, like a pronoun referring to a town named two paragraphs earlier. In the next unit, I'd replace it with a Contextual Self-Containment criterion that tests whether a retrieved chunk can be fully understood by a reader without needing to look at adjacent chunks.
 
 <!-- Knowing what you know now — which of your five criteria would you write
      differently, and why?
